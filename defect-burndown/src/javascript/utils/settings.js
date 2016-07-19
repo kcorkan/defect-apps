@@ -1,6 +1,32 @@
 Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
     singleton: true,
 
+    filterOutExceptChoices: function(store) {
+
+        store.filter([{
+            filterFn:function(field){ 
+                
+                var attribute_definition = field.get('fieldDefinition').attributeDefinition;
+                var attribute_type = null;
+                if ( attribute_definition ) {
+                    attribute_type = attribute_definition.AttributeType;
+                }
+                if (  attribute_type == "BOOLEAN" ) {
+                    return true;
+                }
+                if ( attribute_type == "STRING" || attribute_type == "STATE" ) {
+                    if ( field.get('fieldDefinition').attributeDefinition.Constrained ) {
+                        return true;
+                    }
+                }
+                if ( field.get('name') === 'State' ) { 
+                    return true;
+                }
+                return false;
+            } 
+        }]);
+    },
+    
     getFields: function(settings, states){
 
         var includeStates = settings && settings.includeStates || [];
@@ -32,6 +58,19 @@ Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
         });
 
         return [{
+                name: 'filterField',
+                xtype:'rallyfieldcombobox',
+                model:'Defect',
+                labelAlign: 'right',
+                labelWidth: labelWidth,
+                listeners: {
+                    ready: function(field_box) {
+                        Rally.technicalservices.DefectsByFieldSettings.filterOutExceptChoices(field_box.getStore());
+                    }
+                },
+                readyEvent: 'ready'
+            },
+            {
             xtype: 'combobox',
             fieldLabel: 'Chart Type',
             labelAlign: 'right',
@@ -48,7 +87,7 @@ Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
             name: 'granularity',
             store: granularityStore,
             displayField: 'name',
-            valueField: 'value',
+            valueField: 'value'
         },{
             xtype: 'checkboxgroup',
             fieldLabel: 'Active States',
@@ -84,6 +123,7 @@ Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
                 }
             },
             items: [
+            
                 {
                     name: "dateType",
                     itemId: "release",

@@ -15,7 +15,8 @@ Ext.define("DefectBurndown", {
             offsetStartDate: -60,
             offsetEndDate: 0,
             customStartDate: Rally.util.DateTime.add(new Date(), 'day', -60),
-            customEndDate: Rally.util.DateTime.add(new Date())
+            customEndDate: Rally.util.DateTime.add(new Date()),
+            charttype: 'line'
         }
     },
 
@@ -235,11 +236,12 @@ Ext.define("DefectBurndown", {
         return Math.round(total/10);
     },
     _getChartConfig: function(){
-        var tickInterval = this._getTickInterval();
+        var tickInterval = this._getTickInterval(),
+            chartType = this.getSetting('charttype');
         return {
             chart: {
-                defaultSeriesType: 'area',
-                zoomType: 'xy'
+                zoomType: 'xy',
+                type: chartType
             },
             title: {
                 text: null

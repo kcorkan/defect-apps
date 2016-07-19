@@ -136,9 +136,9 @@ Ext.define("DefectBurndownCalculator",{
         }, this);
 
         var seriesData = [
-            {name: 'New', type: 'line', data: _.map(dateBuckets, function(d){ return 0; })},
-            {name: 'Closed', type: 'line', data:_.map(dateBuckets, function(d){ return 0; })},
-            {name: 'Active', type: 'line', data:_.map(dateBuckets, function(d){ return 0; })},
+            {name: 'Found',  data: _.map(dateBuckets, function(d){ return 0; }), color: '#FF0000'},
+            {name: 'Fixed', data:_.map(dateBuckets, function(d){ return 0; }), color:'#00FF00' },
+            {name: 'Active', data:_.map(dateBuckets, function(d){ return 0; }), color:'#0000FF' },
         ];
 
         for (var i=0; i<dateBuckets.length; i++){

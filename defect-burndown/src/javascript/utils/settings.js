@@ -3,7 +3,6 @@ Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
 
     getFields: function(settings, states){
 
-        console.log('settings',settings);
         var includeStates = settings && settings.includeStates || [];
         if (Ext.isString(includeStates)){
             includeStates = includeStates.split(',');
@@ -24,8 +23,24 @@ Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
             ]
         });
 
+        var chartTypeStore = Ext.create('Ext.data.Store',{
+            fields: ['name','value'],
+            data: [
+                {name: "Line", value: 'line'},
+                {name: "Column", value: 'column'}
+            ]
+        });
 
         return [{
+            xtype: 'combobox',
+            fieldLabel: 'Chart Type',
+            labelAlign: 'right',
+            labelWidth: labelWidth,
+            name: 'charttype',
+            store: chartTypeStore,
+            displayField: 'name',
+            valueField: 'value',
+        },{
             xtype: 'combobox',
             fieldLabel: 'Granularity',
             labelAlign: 'right',
@@ -140,162 +155,5 @@ Ext.define('Rally.technicalservices.DefectsByFieldSettings',{
                         }
                 }]
         }];
-        //},{
-            //xtype: "fieldcontainer",
-            //layout: {type: 'hbox'},
-            //items: [{
-            //    xtype: "container",
-            //    minWidth: 250,
-            //    items: [
-            //        {
-            //            xtype: "label",
-            //            text: "Start Date",
-            //            cls: "settingsLabel"
-            //        },
-            //        {
-            //            xtype: "radiogroup",
-            //            name: "startdate",
-            //            itemId: "startdategroup",
-            //            columns: 1,
-            //            vertical: true,
-            //            items: [
-            //                {
-            //                    name: "startdate",
-            //                    itemId: "release",
-            //                    boxLabel: "Use Release",
-            //                    baseLabel: "Actual Start Date",
-            //                    inputValue: "actualstartdate",
-            //                    checked: startDate[0] === "actualstartdate"
-            //                },
-            //                {
-            //                    name: "startdate",
-            //                    itemId: "plannedstartdate",
-            //                    boxLabel: "Planned Start Date",
-            //                    baseLabel: "Planned Start Date",
-            //                    inputValue: "plannedstartdate",
-            //                    checked: startDate[0] === "plannedstartdate"
-            //                },
-            //                {
-            //                    xtype: "container",
-            //                    layout: {
-            //                        type: "hbox"
-            //                    },
-            //                    items: [
-            //                        {
-            //                            xtype: "radiofield",
-            //                            name: "startdate",
-            //                            itemId: "startdatemanual",
-            //                            boxLabel: " ",
-            //                            inputValue: "selecteddate",
-            //                            checked: startDate[0] === "selecteddate"
-            //                        },
-            //                        {
-            //                            xtype: "rallydatefield",
-            //                            name: "startdate",
-            //                            itemId: "startdatefield",
-            //                            inputValue: "selecteddate",
-            //                            value: startDate[1] || ''
-            //                        }
-            //                    ]
-            //                }
-            //            ]
-            //        },
-            //        {
-            //            xtype: "container",
-            //            minWidth: 250,
-            //            items: [
-            //                {
-            //                    xtype: "label",
-            //                    text: "End Date",
-            //                    cls: "settingsLabel"
-            //                },
-            //                {
-            //                    xtype: "radiogroup",
-            //                    name: "enddate",
-            //                    itemId: "enddategroup",
-            //                    columns: 1,
-            //                    vertical: true,
-            //                    items: [
-            //                        {
-            //                            name: "enddate",
-            //                            itemId: 'today',
-            //                            boxLabel: "Today",
-            //                            inputValue: "today",
-            //                            checked: endDate[0] === "today"
-            //                        },
-            //                        {
-            //                            name: "enddate",
-            //                            itemId: "actualenddate",
-            //                            boxLabel: "Actual End Date",
-            //                            baseLabel: "Actual End Date",
-            //                            inputValue: "actualenddate",
-            //                            checked: endDate[0] === "actualenddate"
-            //                        },
-            //                        {
-            //                            name: "enddate",
-            //                            itemId: "plannedenddate",
-            //                            boxLabel: "Planned End Date",
-            //                            baseLabel: "Planned End Date",
-            //                            inputValue: "plannedenddate",
-            //                            checked: endDate[0] === "plannedenddate"
-            //                        },
-            //                        {
-            //                            xtype: "container",
-            //                            layout: {
-            //                                type: "hbox"
-            //                            },
-            //                            items: [
-            //                                {
-            //                                    xtype: "radiofield",
-            //                                    name: "enddate",
-            //                                    itemId: "enddatemanual",
-            //                                    boxLabel: " ",
-            //                                    inputValue: "selecteddate",
-            //                                    checked: endDate[0] === "selecteddate"
-            //                                },
-            //                                {
-            //                                    xtype: "rallydatefield",
-            //                                    name: "enddate",
-            //                                    itemId: "enddatefield",
-            //                                    inputValue: "selecteddate",
-            //                                    value: endDate[1] || ""
-            //                                }
-            //                            ]
-            //                        }
-            //                    ]
-            //                }
-            //            ]
-            //        }
-            //    ]
-            //}]
-        //},{
-        //    xtype: 'textarea',
-        //    labelAlign: 'right',
-        //    fieldLabel: 'Query',
-        //    name: 'query',
-        //    labelWidth: labelWidth,
-        //    anchor: '100%',
-        //    cls: 'query-field',
-        //    margin: '0 70 0 0',
-        //    plugins: [
-        //        {
-        //            ptype: 'rallyhelpfield',
-        //            helpId: 194
-        //        },
-        //        'rallyfieldvalidationui'
-        //    ],
-        //    validateOnBlur: false,
-        //    validateOnChange: false,
-        //    validator: function(value) {
-        //        try {
-        //            if (value) {
-        //                Rally.data.wsapi.Filter.fromQueryString(value);
-        //            }
-        //            return true;
-        //        } catch (e) {
-        //            return e.message;
-        //        }
-        //    }
-        //}];
     }
 });

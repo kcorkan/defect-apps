@@ -3,10 +3,10 @@
 <head>
     <title>Defect Burndown</title>
     <!--  (c) 2015 Rally Software Development Corp.  All Rights Reserved. -->
-    <!--  Build Date: Thu Feb 25 2016 14:11:45 GMT-0700 (MST) -->
+    <!--  Build Date: Fri Apr 01 2016 12:13:57 GMT-0600 (MDT) -->
     
     <script type="text/javascript">
-        var APP_BUILD_DATE = "Thu Feb 25 2016 14:11:45 GMT-0700 (MST)";
+        var APP_BUILD_DATE = "Fri Apr 01 2016 12:13:57 GMT-0600 (MDT)";
         var CHECKSUM = [%= checksum %];
     </script>
     
